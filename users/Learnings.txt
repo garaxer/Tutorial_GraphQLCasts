@@ -1,2 +1,9 @@
 npm run dev
 npm run json:server
+
+
+dbUser
+T3ZLRxGe
+mongodb+srv://dbUser:<password>@cluster0.da8eg.mongodb.net/?retryWrites=true&w=majority
+
+localhost:4000 and localhost:4000/graphql
