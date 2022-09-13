@@ -9,7 +9,9 @@ import SongCreate from "./components/SongCreate";
 import SongDetail from "./components/SongDetail";
 
 const client = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    dataIdFromObject: (o: any) => o.id,
+  }),
   uri: "http://localhost:4000/graphql",
 });
 

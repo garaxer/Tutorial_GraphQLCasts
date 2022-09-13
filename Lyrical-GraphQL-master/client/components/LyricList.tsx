@@ -4,11 +4,18 @@ import query from "../queries/fetchSongs";
 import { gql } from "graphql-tag";
 import { useMutation } from "react-apollo";
 import { Link } from "react-router-dom";
-
-const mutation = gql`
+const deleteMutation = gql`
   mutation DeleteSong($id: ID) {
     deleteSong(id: $id) {
       id
+    }
+  }
+`;
+const likeMutation = gql`
+  mutation LikeLyric($id: ID) {
+    likeLyric(id: $id) {
+      id
+      likes
     }
   }
 `;
@@ -16,21 +23,36 @@ const mutation = gql`
 const LyricList = ({
   lyrics,
 }: {
-  lyrics: { id: string; content: string }[];
+  lyrics: { id: string; content: string; likes: number }[];
 }) => {
-
-  const [mutate] = useMutation(mutation);
-
+  const [deleteM] = useMutation(deleteMutation);
+  const [likeM] = useMutation(likeMutation);
 
   const deleteSong = (id: string) => () => {
-    mutate({ variables: { id: id } }).then( );
+    deleteM({ variables: { id: id } }).then();
+  };
+  const onLike = (id: string, likes: number) => {
+    likeM({
+      variables: { id: id },
+      optimisticResponse: {
+        __typename: "Mutation",
+        likeLyric: {
+          id: id,
+          __typename: "LyricType",
+          likes: likes + 1,
+        },
+      },
+    }).then();
   };
   return (
     <ul>
       Lyrics
-      {lyrics.map(({ content, id }) => (
+      {lyrics.map(({ content, id, likes }) => (
         <li key={id}>
           <Link to={`${id || ""}`}> {content}</Link>
+          <h3>
+            <span onClick={() => onLike(id, likes)}>👍</span> likes: {likes}
+          </h3>
         </li>
       ))}
     </ul>
