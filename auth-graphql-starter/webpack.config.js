@@ -1,24 +1,32 @@
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: "./client/index.js",
+  entry: './client/index.tsx',
   output: {
-    path: "/",
-    filename: "bundle.js",
+    path: '/',
+    filename: 'bundle.js'
+  },
+  resolve: {
+    extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
   },
   module: {
-    rules: [
+    [
       {
-        use: "babel-loader",
-        test: /\.js$/,
+        use: "ts-loader",
+        test: /\.(js|tsx|jsx|ts)$/,
         exclude: /node_modules/,
       },
-    ],
+      {
+        use: ["style-loader", "css-loader"],
+        test: /\.css$/,
+        exclude: /node_modules/,
+      },
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "client/index.html",
-    }),
-  ],
+      template: 'client/index.html'
+    })
+  ]
 };
