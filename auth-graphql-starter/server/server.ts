@@ -1,10 +1,11 @@
 import express from "express";
-import models from "./models";
 import { graphqlHTTP } from "express-graphql";
 import mongoose from "mongoose";
+import { user } from "./models";
+user(mongoose); // reqister user model before using inside auth
 import session from "express-session";
 import passport from "passport";
-import passportConfig from "./services/auth";
+import passportConfig, { signup } from "./services/auth";
 import MongoStore from "connect-mongo";
 import schema from "./schema/schema";
 
@@ -15,6 +16,7 @@ const app = express();
 const MONGO_URI =
   "mongodb+srv://dbUser:T3ZLRxGe@cluster0.da8eg.mongodb.net/?retryWrites=true&w=majority";
 
+//
 // Mongoose's built in promise library is deprecated, replace it with ES2015 Promise
 mongoose.Promise = global.Promise;
 
@@ -24,7 +26,6 @@ mongoose.connect(MONGO_URI);
 mongoose.connection
   .once("open", () => console.log("Connected to MongoLab instance."))
   .on("error", (error) => console.log("Error connecting to MongoLab:", error));
-
 // Configures express to use sessions.  This places an encrypted identifier
 // on the users cookie.  When a user makes a request, this middleware examines
 // the cookie and modifies the request object to indicate which user made the request
