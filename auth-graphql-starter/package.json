@@ -8,7 +8,9 @@
   },
   "main": "index.js",
   "scripts": {
-    "dev": "node --loader ts-node/esm index.ts"
+    "dev": "node --loader ts-node/esm index.ts",
+    "dev2": "nodemon index.js --ignore client",
+    "dev3": "nodemon index.ts"
   },
   "author": "",
   "license": "ISC",
