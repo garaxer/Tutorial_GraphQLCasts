@@ -1,6 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { ApolloProvider } from "react-apollo";
+import { ApolloProvider } from "react-apollo"; // Remove this package, apollo client has this
 import SongList from "./components/SongList";
 import { InMemoryCache, ApolloClient } from "@apollo/client";
 import { Routes, BrowserRouter, Route, Outlet } from "react-router-dom";
