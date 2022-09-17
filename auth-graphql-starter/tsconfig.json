@@ -6,7 +6,8 @@
         "sourceMap": true,
         "esModuleInterop": true,
         "outDir": "dist",
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "allowJs": true
     },
     "exclude": [
         "node_modules"

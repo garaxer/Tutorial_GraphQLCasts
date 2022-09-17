@@ -5,14 +5,15 @@ import mongoose from "mongoose";
 import session from "express-session";
 import passport from "passport";
 import passportConfig from "./services/auth";
-const MongoStore = require("connect-mongo")(session);
+import MongoStore from "connect-mongo";
 import schema from "./schema/schema";
 
 // Create a new Express application
 const app = express();
 
 // Replace with your mongoLab URI
-const MONGO_URI = "";
+const MONGO_URI =
+  "mongodb+srv://dbUser:T3ZLRxGe@cluster0.da8eg.mongodb.net/?retryWrites=true&w=majority";
 
 // Mongoose's built in promise library is deprecated, replace it with ES2015 Promise
 mongoose.Promise = global.Promise;
@@ -33,10 +34,9 @@ app.use(
   session({
     resave: true,
     saveUninitialized: true,
-    secret: "aaabbbccc",
-    store: new MongoStore({
-      url: MONGO_URI,
-      autoReconnect: true,
+    secret: "aaabg1bbccc",
+    store: MongoStore.create({
+      mongoUrl: MONGO_URI,
     }),
   })
 );
@@ -62,7 +62,7 @@ app.use(
 // a single bundle.js output of all of our client side Javascript
 import webpackMiddleware from "webpack-dev-middleware";
 import webpack from "webpack";
-import webpackConfig from "../webpack.config.js";
-app.use(webpackMiddleware(webpack(webpackConfig)));
+import config from "../webpack.config";
+app.use(webpackMiddleware(webpack(config)));
 
 export default app;
