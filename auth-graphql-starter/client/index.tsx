@@ -8,7 +8,9 @@ import {
 } from "@apollo/client";
 import { Routes, HashRouter, Route, Outlet } from "react-router-dom";
 import App from "./components/App";
-
+import LoginForm from "./components/LoginForm";
+import "./style.css";
+import SignUpForm from "./components/SignUpForm";
 const client = new ApolloClient({
   cache: new InMemoryCache({
     dataIdFromObject: (o: any) => o.id, // Every record returned will be passed through here and cached
@@ -37,6 +39,8 @@ root.render(
           }
         >
           <Route index element={<>Foo</>} />
+          <Route path="login" element={<LoginForm />} />
+          <Route path="signup" element={<SignUpForm />} />
           <Route path="songs" element={<>Fighters</>} />
         </Route>
       </Routes>
