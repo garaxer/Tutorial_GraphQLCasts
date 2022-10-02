@@ -12,6 +12,7 @@ import LoginForm from "./components/LoginForm";
 import "./style.css";
 import SignUpForm from "./components/SignUpForm";
 import Dashboard from "./components/Dashboard";
+import RequireAuth from "./components/requireAuth";
 const client = new ApolloClient({
   cache: new InMemoryCache({
     dataIdFromObject: (o: any) => o.id, // Every record returned will be passed through here and cached
@@ -45,7 +46,16 @@ root.render(
           />
           <Route path="login" element={<LoginForm />} />
           <Route path="signup" element={<SignUpForm />} />
-          <Route path="dashboard" element={<Dashboard />} />
+          <Route
+            path="dashboard"
+            element={
+              // Replace parent component with login conditional
+              // and use <Navigate replace to={"/"} />
+              <RequireAuth>
+                <Dashboard />
+              </RequireAuth>
+            }
+          />
         </Route>
       </Routes>
     </ApolloProvider>

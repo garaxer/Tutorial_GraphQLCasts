@@ -18,10 +18,9 @@ const StyledLink = styled(Link)(() => ({
 const Header = () => {
   let navigate = useNavigate();
 
-  const { loading, error, data, refetch } = useQuery<{
+  const { loading, error, data } = useQuery<{
     user?: { email?: string };
   }>(currentUser);
-  console.log({ user: data });
   const [logoutMutation, { loading: loadingLogout, error: errorLogout }] =
     useMutation(logoutUserMutation);
 
@@ -39,9 +38,9 @@ const Header = () => {
     );
   };
 
-  const handleLogout = async() => {
+  const handleLogout = async () => {
     await logoutMutation({ refetchQueries: [{ query: currentUser }] });
-    navigate("/")
+    navigate("/");
   };
 
   return (
