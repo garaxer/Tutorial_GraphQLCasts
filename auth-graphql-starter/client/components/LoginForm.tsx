@@ -1,7 +1,7 @@
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import styled from "@emotion/styled";
 import { Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AuthForm from "./AuthForm";
 import loginUser from "../mutations/LoginUser";
 import currentUser from "../queries/CurrentUser";
@@ -17,14 +17,24 @@ const CentreBox = styled("div")`
 const LoginForm = () => {
   const [loginErrors, setLoginErrors] = useState<string[]>([]);
   const [mutate, { loading, error }] = useMutation(loginUser);
+
   let navigate = useNavigate();
+
+  //TODO Place this into context instead
+  const { data: loggedInUser } = useQuery<{
+    user?: { email?: string };
+  }>(currentUser);
+  console.log(loggedInUser);
+  useEffect(() => {
+    loggedInUser?.user && navigate(`/dashboard`);
+  }, [loggedInUser]);
 
   const onSubmit = async ({ email, password }: AuthForm) => {
     await mutate({
       variables: { email, password },
       refetchQueries: [{ query: currentUser }],
     })
-      .then(() => navigate(`/`))
+      .then(() => navigate(`/dashboard`)) // not needed?
       .catch((res: { graphQLErrors: { message: string }[] }) =>
         setLoginErrors(res.graphQLErrors.map((error) => error.message))
       );

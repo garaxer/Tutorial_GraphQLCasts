@@ -11,6 +11,7 @@ import App from "./components/App";
 import LoginForm from "./components/LoginForm";
 import "./style.css";
 import SignUpForm from "./components/SignUpForm";
+import Dashboard from "./components/Dashboard";
 const client = new ApolloClient({
   cache: new InMemoryCache({
     dataIdFromObject: (o: any) => o.id, // Every record returned will be passed through here and cached
@@ -38,10 +39,13 @@ root.render(
             </App>
           }
         >
-          <Route index element={<>Foo</>} />
+          <Route
+            index
+            element={<>Foo - I am allowed to see this hero page</>}
+          />
           <Route path="login" element={<LoginForm />} />
           <Route path="signup" element={<SignUpForm />} />
-          <Route path="songs" element={<>Fighters</>} />
+          <Route path="dashboard" element={<Dashboard />} />
         </Route>
       </Routes>
     </ApolloProvider>
